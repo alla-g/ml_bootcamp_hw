@@ -1,3 +1,4 @@
+import time
 import streamlit as st
 import pandas as pd
 from model import open_data, preprocess_data, get_importances, predict_on_input
@@ -153,6 +154,7 @@ def render_page(scaler, plane, age, cat, dist, delays, scores):
         col1, col2, col3 = st.columns(3)
         if col2.button('Полетели!'):
             with st.spinner('Считаем!'):
+                time.sleep(1)
                 inputs = pack_input(sex, age, loyalty, distance, p_class, travel_type, dep_delay, arr_delay, wifi, fun,
                                     time_conv, onboard_service, booking, leg, gate_loc, baggage, food, checkin,
                                     online_boarding, inflight_service, seat, cleanliness)
@@ -160,7 +162,7 @@ def render_page(scaler, plane, age, cat, dist, delays, scores):
 
                 pred, proba = predict_on_input(scaled)
                 if pred == 1:
-                    st.success('Пассажир доволен! :thumbsup: :thumbsdown:')
+                    st.success('Пассажир доволен! :thumbsup: :thumbsup:')
                     with st.expander('Подробнее'):
                         st.write(f'Вероятность этого: **`{round(max(proba[0]), 3)}`**')
                 elif pred == 0:
